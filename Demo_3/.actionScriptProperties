@@ -37,6 +37,9 @@
       <libraryPathEntry kind="3" linkType="1" path="src/libs/swc_Enemigo.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="src/libs/swc_plataforma.swc" useDefaultLinkType="false"/>
       <libraryPathEntry kind="3" linkType="1" path="src/libs/swc_Enemigo_Volador.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="src/libs/swc_Roca.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="src/libs/swc_gema.swc" useDefaultLinkType="false"/>
+      <libraryPathEntry kind="3" linkType="1" path="src/libs/swc_Plataform.swc" useDefaultLinkType="false"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>

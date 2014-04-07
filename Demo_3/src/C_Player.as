@@ -43,6 +43,17 @@ package
 			this.addChild(jugador);
 		}
 		
+		public function _Animacion_dash():void
+		{
+			jugador.gotoAndStop(3);
+			
+		}	
+		public function _Animacion_impac():void
+		{
+			jugador.gotoAndStop(4);
+			
+		}	
+		
 		
 	}
 }

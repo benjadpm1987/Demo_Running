@@ -149,11 +149,14 @@ package
 		{
 			if(event.target.hitTestObject(mc_player)){
 				
+				
 				event.target.removeEventListener(Event.ENTER_FRAME,MoverEnemigo)
 				if(dash_flag==true){
 				TweenMax.to(event.target, 1, {x:stage.stageWidth+100,y:regresarRandom(0,300),rotation:360,ease:Cubic.easeOut});
 				}else{
-				TweenMax.to(event.target, 1, {x:event.target.x+25,y:stage.stageHeight*1.25,rotation:90,ease:Cubic.easeOut});
+				mc_player._Animacion_impac();	
+				TweenMax.to(event.target, 0.5, {x:mc_player.x,rotation:90,ease:Cubic.easeOut});
+				TweenMax.to(event.target, 1, {y:stage.stageHeight+50,ease:Cubic.easeOut});
 				stage.addEventListener(Event.ENTER_FRAME,MoverCamara,false,0,true);
 				}
 				//removeChild(event.target as enemigo);
@@ -182,6 +185,7 @@ package
 				total=30;
 				stage.removeEventListener(Event.ENTER_FRAME,MoverCamara)
 				speed=10
+				mc_player._Animacion_();	
 			}
 		}
 		
@@ -204,6 +208,12 @@ package
 			
 			if(event.keyCode == 39 || event.keyCode == 68){
 				rightKeyDown = false;
+			//	mc_player._Animacion_();
+			}
+			
+			if(event.keyCode == 40 || event.keyCode == 83){
+				mc_player._Animacion_();
+				dash_flag=false;
 			}
 		}
 		
@@ -215,6 +225,11 @@ package
 			
 			if(event.keyCode == 39 || event.keyCode == 68){
 				rightKeyDown = true;
+			//	mc_player._Animacion_dash()
+			}
+			if(event.keyCode == 40 || event.keyCode == 83){
+				mc_player._Animacion_dash();
+				dash_flag=true;
 			}
 		}
 		
@@ -227,10 +242,12 @@ package
 			
 			if(rightKeyDown){
 				speed=20;
-				dash_flag=true;
+				//dash_flag=true;
+				//mc_player._Animacion_dash();
 			}else{
 				speed=10;
-				dash_flag=false;
+				//dash_flag=false;
+			//	mc_player._Animacion_();
 			}
 			
 		}

@@ -18,15 +18,18 @@ package
 		private var mc_cielo:C_Cielo;
 		private var mc_player:C_Player;
 		private var limite:Number;
+		private var m_c:C_PlataformaPiso;
 		//-----------------------------------
 		
 		private var speed:int=10;
+		private var speed_:int=10;
 		private var parallax:Number=1;
 		private var dash_flag:Boolean=false;
 		private var dash_flag_rocas:Boolean=false;
 		private var retro_flag:Boolean=false;
 		//tiempo que la camara esta temblando
-		private var total:int=30;
+		private var total:int=20;
+		private var time_each:int=0;
 		//-----------------------------------
 		
 		private var upKeyDown:Boolean = false;	
@@ -73,6 +76,19 @@ package
 			TweenMax.to(mc_player, 2, {delay:1,x:100,ease:Cubic.easeOut});
 			
 			this.addChild(mc_player);
+			
+			this.addEventListener(Event.ENTER_FRAME,InCrementarVelocidad,false,0,true);
+		}
+		
+		protected function InCrementarVelocidad(event:Event):void
+		{
+			
+			time_each++
+			if(time_each%50==0){
+			speed+=1;	
+			speed_++;
+			}
+			trace(speed);
 		}
 		
 		protected function LanzarEnemigo(event:Event):void
@@ -92,19 +108,27 @@ package
 			}
 			
 			if(Math.random()>0.97){
-				if(Math.random()>0.70){
+				if(Math.random()>0.80){
+					//speed_
+					CrearRoca(regresarRandom(800+(speed_*100),900),-200);						
+					/*
 					if(dash_flag_rocas==false){
 					CrearRoca(regresarRandom(800,900),-200);
 					}else{
 					CrearRoca(regresarRandom(1000,1200),-200);	
-					}
+					}*/
 				}
 			}
 			
 			//CrearGema
 			if(Math.random()>0.97){
-				
+				if(regresarRandom(1,2)==1){
 				CrearPLataformaVoladora(stage.stageWidth,450);
+				//CrearPLataforma(stage.stageWidth+100,450);
+				}else{
+				CrearPLataformaVoladora(stage.stageWidth,250);	
+				//CrearPLataforma(stage.stageWidth+100,250);
+				}
 				
 				if(Math.random()>0.4){
 					CrearGema(stage.stageWidth,mc_piso.y-(mc_player.height)*0.25);
@@ -153,6 +177,10 @@ package
 				
 			}
 			event.target.x-=Math.ceil(speed*parallax);	
+			if(event.target.hitTestObject(m_c)){
+				event.target.y=m_c.y-event.target.height;
+				TweenMax.killTweensOf(event.target);
+			}
 		}
 		
 		protected function LanzarRoca(event:Event):void
@@ -173,23 +201,37 @@ package
 		
 		private function CrearPLataformaVoladora(posX:int, posY:int):void
 		{
-			var m_c:C_PlataformaPiso = new C_PlataformaPiso();
+			m_c = new C_PlataformaPiso();
 			m_c.x=posX;
 			m_c.y=posY-m_c.height;
 			m_c.scaleX=m_c.scaleY=0.75;
 			m_c.addEventListener(Event.ENTER_FRAME,MoverPLataformaVoladora,false,0,true);
+			m_c.addEventListener(Event.ENTER_FRAME,MovimientoPlataformaVoladora,false,0,true);
 			addChild(m_c);
 		}
 		
 		protected function MoverPLataformaVoladora(event:Event):void
 		{
 			if(event.target.hitTestObject(mc_player)){
+				mainJumping = false;
+				mc_player._Animacion_();
 				mc_player.y=event.target.y-mc_player.height;
+				//limite=event.target.y-mc_player.height;	
+				
 			}else{
-				limite=stage.stageHeight -mc_piso.height;
+				//mainJumping = true;
+				limite=stage.stageHeight -mc_piso.height;	
+			
 			}
 			
-		event.target.x-=Math.ceil(speed*parallax);			
+				
+		}
+		
+		
+		
+		protected function MovimientoPlataformaVoladora(event:Event):void
+		{
+			event.target.x-=Math.ceil(speed*parallax);	
 		}
 		
 		private function CrearGema(posX:int, posY:int):void
@@ -289,9 +331,9 @@ package
 				speed*=0.5;
 			}else{
 				this.x=0;
-				total=30;
+				total=20;
 				stage.removeEventListener(Event.ENTER_FRAME,MoverCamara)
-				speed=10
+				speed=speed_;
 				mc_player._Animacion_();	
 			}
 		}
@@ -344,18 +386,18 @@ package
 		{
 			if(upKeyDown || mainJumping ){
 				mainJump();
-				trace("Salto");
+				
 			}
 			
-			if(rightKeyDown){
+		/*	if(rightKeyDown){
 				speed=20;
 				dash_flag_rocas=true;
-				//mc_player._Animacion_dash();
+				
 			}else{
 				speed=10;
 				dash_flag_rocas=false;
-			//	mc_player._Animacion_();
-			}
+		
+			}*/
 			
 			//Lugar provision
 			

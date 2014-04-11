@@ -33,7 +33,13 @@ package
 		{
 			jugador.gotoAndStop(1);
 			
-		}		
+		}	
+		
+		public function _Animacion_nave():void
+		{
+			jugador.gotoAndStop(5);
+			
+		}	
 		
 		
 		

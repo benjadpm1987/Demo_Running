@@ -84,7 +84,7 @@ package
 		{
 			
 			time_each++
-			if(time_each%50==0){
+			if(time_each%100==0){
 			speed+=1;	
 			speed_++;
 			}
@@ -123,11 +123,11 @@ package
 			//CrearGema
 			if(Math.random()>0.97){
 				if(regresarRandom(1,2)==1){
-				CrearPLataformaVoladora(stage.stageWidth,450);
-				//CrearPLataforma(stage.stageWidth+100,450);
+				CrearPLataformaVoladora(stage.stageWidth,150);
 				}else{
-				CrearPLataformaVoladora(stage.stageWidth,250);	
-				//CrearPLataforma(stage.stageWidth+100,250);
+				//Crear la plataforma junto con el trampolin	
+				CrearPLataformaVoladora(stage.stageWidth,350);
+				CrearTrampolin(stage.stageWidth-125,mc_piso.y);	
 				}
 				
 				if(Math.random()>0.4){
@@ -199,6 +199,18 @@ package
 			addChild(m_c);
 		}
 		
+		
+		private function CrearTrampolin(posX:int, posY:int):void
+		{
+			var m_c:C_trampolin = new C_trampolin();
+			m_c.x=posX;
+			m_c.scaleX=3.5;
+			m_c.scaleY=1;
+			m_c.y=posY-m_c.height;
+			m_c.addEventListener(Event.ENTER_FRAME,MoverPLataforma,false,0,true);
+			addChild(m_c);
+		}
+		
 		private function CrearPLataformaVoladora(posX:int, posY:int):void
 		{
 			m_c = new C_PlataformaPiso();
@@ -214,7 +226,7 @@ package
 		{
 			if(event.target.hitTestObject(mc_player)){
 				mainJumping = false;
-				mc_player._Animacion_();
+				mc_player._Animacion_nave();
 				mc_player.y=event.target.y-mc_player.height;
 				//limite=event.target.y-mc_player.height;	
 				
@@ -307,6 +319,8 @@ package
 				TweenMax.to(event.target, 0.5, {x:mc_player.x,rotation:90,ease:Cubic.easeOut});
 				TweenMax.to(event.target, 1, {y:stage.stageHeight+50,ease:Cubic.easeOut});
 				stage.addEventListener(Event.ENTER_FRAME,MoverCamara,false,0,true);
+				//TweenMax.to(mc_player, 0.5, {y:mc_piso.y-mc_player.height,ease:Cubic.easeOut});
+				//limite=stage.stageHeight -mc_piso.height;	
 				}
 				//removeChild(event.target as enemigo);
 				
